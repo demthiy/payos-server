@@ -1,16 +1,5 @@
-const express = require("express");
-const crypto = require("crypto");
-const axios = require("axios");
-
-const app = express();
-app.use(express.json());
-
-const CLIENT_ID = "YOUR_CLIENT_ID";
-const API_KEY = "YOUR_API_KEY";
-const CHECKSUM_KEY = "YOUR_CHECKSUM_KEY";
-
-app.post("/create-payment", async (req, res) => {
-  const { amount } = req.body;
+app.get("/create-payment", async (req, res) => {
+  const amount = 10000;
   const orderCode = Date.now();
 
   const data = {
@@ -43,18 +32,10 @@ app.post("/create-payment", async (req, res) => {
       }
     );
 
-    res.json(response.data);
+    // 👉 redirect luôn để test
+    res.redirect(response.data.data.checkoutUrl);
+
   } catch (err) {
     res.status(500).json(err.response?.data || err.message);
   }
 });
-
-// ✅ thêm đoạn này
-app.get('/success', (req, res) => {
-  const { orderCode, amount } = req.query;
-
-  res.redirect(`https://project1542.bubbleapps.io/success?amount=${amount}&orderCode=${orderCode}`);
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server running"));
