@@ -15,10 +15,12 @@ app.post("/create-payment", async (req, res) => {
   const orderCode = Date.now();
 
   const data = {
-    orderCode,
-    amount,
-    description: "Nap tien",
-   returnUrl: `https://project1542.bubbleapps.io/success?amount=${amount}&orderCode=${orderCode}`,
+  orderCode,
+  amount,
+  description: "Nap tien",
+  returnUrl: `https://project1542.bubbleapps.io/success?amount=${amount}&orderCode=${orderCode}`,
+  cancelUrl: "https://project1542.bubbleapps.io/cancel"
+};
 
   // tạo chuỗi để ký
   const rawData = `amount=${data.amount}&cancelUrl=${data.cancelUrl}&description=${data.description}&orderCode=${data.orderCode}&returnUrl=${data.returnUrl}`;
