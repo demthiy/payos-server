@@ -18,9 +18,7 @@ app.post("/create-payment", async (req, res) => {
     orderCode,
     amount,
     description: "Nap tien",
-    returnUrl: "https://project1542.bubbleapps.io/success",
-    cancelUrl: "https://project1542.bubbleapps.io/cancel"
-  };
+   returnUrl: `https://project1542.bubbleapps.io/success?amount=${amount}&orderCode=${orderCode}`,
 
   // tạo chuỗi để ký
   const rawData = `amount=${data.amount}&cancelUrl=${data.cancelUrl}&description=${data.description}&orderCode=${data.orderCode}&returnUrl=${data.returnUrl}`;
