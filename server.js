@@ -53,8 +53,7 @@ app.post("/create-payment", async (req, res) => {
 app.get('/success', (req, res) => {
   const { orderCode } = req.query;
 
-  res.redirect(`https://project1542.bubbleapps.io/success?orderCode=${orderCode}`);
-});
+  res.redirect(`https://project1542.bubbleapps.io/success?amount=${amount}&orderCode=${orderCode}`);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server running"));
