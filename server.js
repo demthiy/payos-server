@@ -5,24 +5,22 @@ const axios = require("axios");
 const app = express();
 app.use(express.json());
 
-const CLIENT_ID = "71a557cd-427c-4d73-ba59-be6790216bb1";
-const API_KEY = "1ffddd58-bb67-46cc-bbb3-0f5b9385f1b3";
-const CHECKSUM_KEY = "e6dcf6ea97ac6b85dc861115d3c17df3bdb838bcb7b64be6246d5d4cb2cae9a5";
+const CLIENT_ID = "YOUR_CLIENT_ID";
+const API_KEY = "YOUR_API_KEY";
+const CHECKSUM_KEY = "YOUR_CHECKSUM_KEY";
 
 app.post("/create-payment", async (req, res) => {
   const { amount } = req.body;
-
   const orderCode = Date.now();
 
   const data = {
-  orderCode,
-  amount,
-  description: "Nap tien",
-  returnUrl: `https://project1542.bubbleapps.io/success?amount=${amount}&orderCode=${orderCode}`,
-  cancelUrl: "https://project1542.bubbleapps.io/cancel"
-};
+    orderCode,
+    amount,
+    description: "Nap tien",
+    returnUrl: `https://payos-server-d2vr.onrender.com/success`,
+    cancelUrl: "https://project1542.bubbleapps.io/cancel"
+  };
 
-  // tạo chuỗi để ký
   const rawData = `amount=${data.amount}&cancelUrl=${data.cancelUrl}&description=${data.description}&orderCode=${data.orderCode}&returnUrl=${data.returnUrl}`;
 
   const signature = crypto
@@ -49,6 +47,13 @@ app.post("/create-payment", async (req, res) => {
   } catch (err) {
     res.status(500).json(err.response?.data || err.message);
   }
+});
+
+// ✅ thêm đoạn này
+app.get('/success', (req, res) => {
+  const { orderCode } = req.query;
+
+  res.redirect(`https://project1542.bubbleapps.io/success?orderCode=${orderCode}`);
 });
 
 const PORT = process.env.PORT || 3000;
